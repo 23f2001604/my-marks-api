@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
+from typing import List
 
 app = FastAPI()
 
@@ -14,7 +15,7 @@ app.add_middleware(
 marks_data = {f"Student{i}": i for i in range(1, 101)}
 
 @app.get("/api")
-def get_marks(name: list[str] = []):
+def get_marks(name: List[str] = Query([])):
     marks = []
     for student_name in name:
         mark = marks_data.get(student_name, 0)
