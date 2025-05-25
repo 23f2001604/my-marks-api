@@ -12,16 +12,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Dummy data: 100 students
 marks_data = {f"Student{i}": i for i in range(1, 101)}
 
 @app.get("/api")
-def get_marks(name: List[str] = Query([])):
-    marks = []
-    for student_name in name:
-        mark = marks_data.get(student_name, 0)
-        marks.append(mark)
+def get_marks(name: List[str] = Query([])) -> dict:
+    marks = [marks_data.get(student_name, 0) for student_name in name]
     return {"marks": marks}
 
 @app.get("/")
-def read_root():
+def read_root() -> dict:
     return {"message": "Marks API is running!"}
